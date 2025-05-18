@@ -46,7 +46,10 @@ const MealPlannerForm = () => {
       } else {
         console.log("Meal Plan:", data);
         // Optionally store meal plan in context or localStorage here
-        navigate("/generated-plan");
+        navigate("/generated-plan", {
+        state: {
+          ...data
+        }});
       }
     } catch (err) {
       console.error("Submit error:", err.message);

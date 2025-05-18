@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AuthPage from './pages/auth';
 import Dashboard from './pages/dashboard';
 import PlannerPage from './pages/PlannerPage';
-
+import MealPlanPage from './pages/MealPlanPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
@@ -20,6 +20,7 @@ function App() {
         <Route path="/auth" element= {<AuthPage />}/>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/planner" element = {<PlannerPage/>}/>
+        <Route path="/generated-plan" element = {<MealPlanPage/>}/>
       </Routes>
     </BrowserRouter>
   );

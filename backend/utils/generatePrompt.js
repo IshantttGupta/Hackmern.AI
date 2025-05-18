@@ -38,7 +38,7 @@ Format:
           "type": "Breakfast",
           "name": "Recipe Name",
           "description": "brief but complete description of the recipe",
-          "calories: "calories",
+          "calories": "calories",
           "ingredients": [
             "ingredient A",
             "ingredient B",
