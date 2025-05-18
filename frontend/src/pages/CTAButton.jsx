@@ -13,7 +13,7 @@ const CTAButton = () => {
     >
       <>
         <span className="relative z-10 flex items-center justify-center cursor-pointer" onClick={() => navigate('/auth')}>
-          Get 5 Free Meal Plans Now
+          Get Meal Plans Now
           <svg 
             className={`ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''}`}
             width="20" 

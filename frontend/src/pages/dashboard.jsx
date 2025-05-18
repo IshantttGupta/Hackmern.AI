@@ -2,6 +2,7 @@ import React from 'react';
 import CTAButton from './CTAButton';
 import Navbar from '../components/Navbar';
 import { motion } from 'framer-motion';
+import '../App.css';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -22,33 +23,58 @@ const itemVariants = {
   },
 };
 
+const wordVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: 'spring', stiffness: 100 },
+  },
+};
+
 const Hero = () => {
+  const headingWords = ['Your', 'AI', 'powered', 'nutritionist', '&', 'chef'];
+
   return (
-    <div>
+    <div className="bg-glass min-h-screen w-full overflow-x-hidden">
       <Navbar />
-      <section className="py-16 md:py-24 bg-gradient-to-br from-white via-green-50 to-white">
+
+      <section className="pt-12 md:pt-20 px-4 md:px-8">
         <motion.div
-          className="flex flex-col items-center text-center px-4"
+          className="flex flex-col items-center text-center"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           <motion.div className="relative mb-12" variants={itemVariants}>
             <div className="absolute inset-0 bg-gradient-radial from-green-400/20 to-transparent rounded-full blur-xl"></div>
-            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white/10 shadow-xl">
+
+            <motion.div
+              className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white/10 shadow-md"
+              whileHover={{ scale: 1.1 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
               <img
                 src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="Fresh vegetables and fruits"
                 className="w-full h-full object-cover"
               />
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.h2
-            className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tight text-gray-900"
-            variants={itemVariants}
+            className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tight text-gray-900 flex flex-wrap justify-center"
+            variants={containerVariants}
           >
-            Your personal chef <span className="text-green-500">&</span> nutritionist
+            {headingWords.map((word, index) => (
+              <motion.span
+                key={index}
+                className={word === '&' ? 'text-green-500 mx-1' : 'mr-2'}
+                variants={wordVariants}
+              >
+                {word}
+              </motion.span>
+            ))}
           </motion.h2>
 
           <motion.p
@@ -63,7 +89,7 @@ const Hero = () => {
           </motion.div>
 
           <motion.div
-            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl"
+            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl"
             variants={itemVariants}
           >
             <BenefitCard
@@ -86,10 +112,7 @@ const Hero = () => {
 };
 
 const BenefitCard = ({ title, description }) => (
-  <motion.div
-    className="bg-white/20 backdrop-blur-lg border border-white/10 p-6 rounded-xl shadow hover:shadow-md hover:bg-white/30 transition-all duration-300"
-    variants={itemVariants}
-  >
+  <motion.div className="benefit-card" variants={itemVariants}>
     <h3 className="text-lg font-semibold mb-2 text-green-600">{title}</h3>
     <p className="text-gray-700 text-sm">{description}</p>
   </motion.div>
