@@ -1,5 +1,5 @@
 const express = require("express");
-const { getMealPlan } = require("../controllers/mealPlannerController");
+const {generateMealPlanController} = require("../controllers/mealPlannerController");
 const authenticateUser = require("../middleware/authMiddleware");
 const DailyPlan = require("../models/DailyPlan");
 const Meal = require("../models/Meal");
@@ -7,7 +7,7 @@ const Meal = require("../models/Meal");
 const router = express.Router();
 
 // For generating a plan
-router.post("/generate", authenticateUser, getMealPlan);
+router.post("/generate", authenticateUser, generateMealPlanController);
 
 router.get("/plans", authenticateUser, async (req, res) => {
   try {

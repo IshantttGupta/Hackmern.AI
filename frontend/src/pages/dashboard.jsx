@@ -1,14 +1,9 @@
 import React from 'react';
-//import { Button } from '@/components/ui/button'; // Removed problematic import
 import { motion } from 'framer-motion';
-//import Navbar from '../components/Navbar'; // Removed problematic import
 import { Leaf, BrainCircuit, CheckCircle, Users, BookOpen } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
-// Mocked Button component to avoid the error.  In a real application,
-// you'd need to make sure the actual Button component is correctly
-// imported and available.  This mock ensures the code runs without
-// the specific error you were encountering.
+
 const Button = ({ as: Component = 'button', href, className, children, ...props }) => {
   if (Component === 'a' && href) {
     return (
@@ -24,7 +19,6 @@ const Button = ({ as: Component = 'button', href, className, children, ...props 
   );
 };
 
-// Animation variants
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -88,10 +82,8 @@ const LandingPage = () => {
         <div
             className={containerClassName}
         >
-            {/* Navbar */}
             <Navbar/>
 
-            {/* Main Content */}
             <motion.main
                 className={mainContentClassName}
                 variants={containerVariants}
@@ -99,7 +91,6 @@ const LandingPage = () => {
                 animate="visible"
             >
                 <div className="text-center space-y-6 sm:space-y-8">
-                    {/* Tagline */}
                     <motion.h1
                         className={taglineClassName}
                         variants={itemVariants}
@@ -107,7 +98,6 @@ const LandingPage = () => {
                         Your Personalized AI Diet Plan
                     </motion.h1>
 
-                    {/* Description */}
                     <motion.p
                         className={descriptionClassName}
                         variants={itemVariants}
@@ -117,11 +107,10 @@ const LandingPage = () => {
                         to help you achieve your health and fitness goals.
                     </motion.p>
 
-                    {/* Get Started Button */}
                     <motion.div variants={itemVariants}>
                         <Button
                             as="a"
-                            href="/auth" //  Set to your authentication page path
+                            href="/auth" 
                             className={getStartedButtonClassName}
                         >
                             Get Started <BrainCircuit className="ml-2 w-6 h-6" />
@@ -130,7 +119,6 @@ const LandingPage = () => {
                 </div>
             </motion.main>
 
-            {/* Features Section */}
             <section className="py-16 sm:py-20 bg-white/20 backdrop-blur-md">
                 <div className="container mx-auto px-4 sm:px-6">
                     <motion.div
@@ -153,7 +141,6 @@ const LandingPage = () => {
                         initial="hidden"
                         animate="visible"
                     >
-                        {/* Feature 1: Personalized Plans */}
                         <motion.div
                             className={featureItemClassName}
                             variants={itemVariants}
@@ -165,7 +152,6 @@ const LandingPage = () => {
                             </p>
                         </motion.div>
 
-                        {/* Feature 2: AI-Powered Recommendations */}
                         <motion.div
                            className={featureItemClassName}
                             variants={itemVariants}
@@ -177,7 +163,6 @@ const LandingPage = () => {
                             </p>
                         </motion.div>
 
-                        {/* Feature 3: Expert-Backed Information */}
                         <motion.div
                             className={featureItemClassName}
                             variants={itemVariants}
