@@ -30,7 +30,7 @@
 1. **Clone the repo**
    ```bash
    git clone https://github.com/your-username/foodmind.git
-   cd foodmind
+   cd Hackermern.AI
 
 Set up environment variables
 Create a .env file in the root directory with the following:
