@@ -35,13 +35,18 @@ const Hero = () => {
         >
           <motion.div className="relative mb-12" variants={itemVariants}>
             <div className="absolute inset-0 bg-gradient-radial from-green-400/20 to-transparent rounded-full blur-xl"></div>
-            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white/10 shadow-xl">
+
+            <motion.div
+              className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white/10 shadow-md"
+              whileHover={{ scale: 1.1, boxShadow: "0 8px 20px rgba(0, 0, 0, 0.4)" }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
               <img
                 src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt="Fresh vegetables and fruits"
                 className="w-full h-full object-cover"
               />
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.h2
@@ -87,7 +92,7 @@ const Hero = () => {
 
 const BenefitCard = ({ title, description }) => (
   <motion.div
-    className="bg-white/20 backdrop-blur-lg border border-white/10 p-6 rounded-xl shadow hover:shadow-md hover:bg-white/30 transition-all duration-300"
+    className="bg-white/20 backdrop-blur-lg border border-white/10 p-6 rounded-xl shadow-lg hover:shadow-2xl hover:bg-white/30 transition-shadow duration-300"
     variants={itemVariants}
   >
     <h3 className="text-lg font-semibold mb-2 text-green-600">{title}</h3>
