@@ -1,13 +1,10 @@
 const Meal = require("../models/Meal");
 const DailyPlan = require("../models/DailyPlan");
 const { mealPlannerSchema } = require("../validators/mealPlannerSchema");
-const { Configuration, OpenAIApi } = require("openai");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const getMealPlan = async (req, res) => {
   const { error } = mealPlannerSchema.validate(req.body);
@@ -27,13 +24,11 @@ const getMealPlan = async (req, res) => {
         - instructions: array of strings
     `;
 
-    const response = await openai.createChatCompletion({
-      model: "gpt-4o",
-      messages: [{ role: "user", content: prompt }],
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent(prompt);
+    const text = result.response.text();
 
-    const result = response.data.choices[0].message.content;
-    const generated = JSON.parse(result);
+    const generated = JSON.parse(text);
 
     // Save all meals
     const savedMeals = await Promise.all(
