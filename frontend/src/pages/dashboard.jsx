@@ -24,9 +24,9 @@ const itemVariants = {
 
 const Hero = () => {
   return (
-    <div>
+    <div className="bg-glass min-h-screen">
       <Navbar />
-      <section className="py-16 md:py-24 bg-gradient-to-br from-white via-green-50 to-white">
+      <section className="py-16 md:py-24">
         <motion.div
           className="flex flex-col items-center text-center px-4"
           variants={containerVariants}

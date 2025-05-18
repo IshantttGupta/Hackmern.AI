@@ -40,3 +40,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.bg-glass {
+  background-color: #e0f2fe;
+  background-image: 
+    radial-gradient(at 47% 33%, hsl(210, 40%, 98%) 0, transparent 59%),
+    radial-gradient(at 82% 65%, hsl(149.27, 80%, 90%) 0, transparent 55%);
+}
