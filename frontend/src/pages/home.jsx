@@ -30,7 +30,7 @@ const Home = () => {
   }, []);
 
   const handleGenerate = () => {
-    navigate("/generate"); // Redirect to your plan generation form page
+    navigate("/planner"); // Redirect to your plan generation form page
   };
 
   const handleViewPlan = (plan) => {
