@@ -112,10 +112,7 @@ const Hero = () => {
 };
 
 const BenefitCard = ({ title, description }) => (
-  <motion.div
-    className="bg-white/30 backdrop-blur-lg border border-white/10 p-6 rounded-xl shadow-lg hover:shadow-2xl hover:bg-white/40 transition-shadow duration-300"
-    variants={itemVariants}
-  >
+  <motion.div className="benefit-card" variants={itemVariants}>
     <h3 className="text-lg font-semibold mb-2 text-green-600">{title}</h3>
     <p className="text-gray-700 text-sm">{description}</p>
   </motion.div>

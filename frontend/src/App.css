@@ -71,3 +71,30 @@ html, body {
     radial-gradient(at 47% 33%, hsl(210, 40%, 98%) 0, transparent 59%),
     radial-gradient(at 82% 65%, hsl(149.27, 80%, 90%) 0, transparent 55%);
 }
+
+
+.benefit-card {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  color: #374151; /* dark gray text */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.benefit-card:hover {
+  background-color: rgba(224, 242, 254, 0.6);
+  background-image:
+    radial-gradient(at 40% 35%, rgba(210, 230, 255, 0.5) 0%, transparent 60%),
+    radial-gradient(at 75% 65%, rgba(170, 220, 210, 0.4) 0%, transparent 55%);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 48px rgba(31, 38, 135, 0.2);
+  color: #0f172a; /* darker text on hover */
+}
+
