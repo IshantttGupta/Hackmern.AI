@@ -1,9 +1,14 @@
-const {generateMealPlanPrompt} = require("./generatePrompt");
 const {getMealPlanFromCohere} = require("../api/CohereClient");
-
+const {generateMealPlanPrompt} = require("./generateprompt");
 
 async function generateMealPlan(input) {
-  const prompt = generateMealPlanPrompt(input);
+    const formattedUser = {
+  ...input,
+  restrictions: input.allergies?.split(",").map(a => a.trim()) || [],
+  meals_per_day: input.meals
+};
+
+  const prompt = generateMealPlanPrompt(formattedUser);
   const responseText = await getMealPlanFromCohere(prompt);
 
   if (!responseText) {

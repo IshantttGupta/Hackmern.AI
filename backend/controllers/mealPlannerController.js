@@ -3,6 +3,7 @@ const { generateMealPlan } = require('../utils/mealPlannerAi');
 const generateMealPlanController = async (req, res) => {
   try {
     const userInput = req.body;
+    console.log(userInput);
 
     const result = await generateMealPlan(userInput);
 
@@ -10,7 +11,6 @@ const generateMealPlanController = async (req, res) => {
       return res.status(500).json({ error: result.error });
     }
 
-    // Try to parse the raw text response into a valid JSON object
     let parsed;
     try {
       parsed = JSON.parse(result.mealPlanRawText);
@@ -21,6 +21,7 @@ const generateMealPlanController = async (req, res) => {
       });
     }
 
+    
     return res.status(200).json({
       success: true,
       promptUsed: result.promptUsed,
