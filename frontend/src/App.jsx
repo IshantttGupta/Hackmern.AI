@@ -6,7 +6,7 @@ import PlannerPage from './pages/PlannerPage';
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); //  use localStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,9 +16,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to={isLoggedIn ? '/dashboard' : '/auth'} />} />
+        <Route path="/" element={<Dashboard/>} />
         <Route path="/auth" element= {<AuthPage />}/>
-        <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/auth" />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/planner" element = {<PlannerPage/>}/>
       </Routes>
     </BrowserRouter>
