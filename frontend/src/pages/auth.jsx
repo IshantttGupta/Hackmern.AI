@@ -69,6 +69,7 @@ const AuthPage = ({ onAuthSuccess }) => {
           localStorage.setItem('token', data.token); // ✅ Save token
           setSuccess('Logged in successfully! Redirecting...');
           if (onAuthSuccess) onAuthSuccess(); // ✅ Notify App
+          window.location.href = '/planner';
         } else {
           setSuccess('Account created! You can now log in.');
           setIsLogin(true);

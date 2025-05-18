@@ -1,63 +1,36 @@
-const Meal = require("../models/Meal");
-const DailyPlan = require("../models/DailyPlan");
-const { mealPlannerSchema } = require("../validators/mealPlannerSchema");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-require("dotenv").config();
+const { generateMealPlan } = require('../utils/mealPlannerAi');
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-const getMealPlan = async (req, res) => {
-  const { error } = mealPlannerSchema.validate(req.body);
-  if (error) return res.status(400).json({ error: error.details[0].message });
-
+const generateMealPlanController = async (req, res) => {
   try {
-    const prompt = `
-      Generate a 1-day meal plan for:
-      ${JSON.stringify(req.body)}
-      Format the response as a JSON object with:
-      - title (string)
-      - totalCalories (number)
-      - meals: array of meals. Each meal should include:
-        - name, mealType (breakfast/lunch/dinner/snack)
-        - calories, protein, carbs, fat
-        - ingredients: array of { name, quantity, calories, protein, carbs, fat }
-        - instructions: array of strings
-    `;
+    const userInput = req.body;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const result = await generateMealPlan(userInput);
 
-    const cleanedText = text
-      .replace(/```json\s*/g, "") // remove ```json
-      .replace(/```/g, "") // remove ```
-      .trim();
+    if (result.error) {
+      return res.status(500).json({ error: result.error });
+    }
 
-    const generated = JSON.parse(cleanedText);
+    // Try to parse the raw text response into a valid JSON object
+    let parsed;
+    try {
+      parsed = JSON.parse(result.mealPlanRawText);
+    } catch (err) {
+      return res.status(400).json({
+        error: 'Failed to parse meal plan. Ensure prompt returns valid JSON.',
+        raw: result.mealPlanRawText,
+      });
+    }
 
-    // Save all meals
-    const savedMeals = await Promise.all(
-      generated.meals.map(async (mealData) => {
-        const meal = await Meal.create(mealData);
-        return meal._id;
-      })
-    );
-
-    // Save daily plan with meal references
-    const mealPlan = await DailyPlan.create({
-      email: req.user.email,
-      title: generated.title,
-      totalCalories: generated.totalCalories,
-      meals: savedMeals,
+    return res.status(200).json({
+      success: true,
+      promptUsed: result.promptUsed,
+      mealPlan: parsed,
     });
 
-    res.status(201).json({ id: mealPlan._id});
-  } catch (err) {
-    console.error("Error generating meal plan:", err.message);
-    res.status(500).json({ error: "Failed to generate meal plan" });
+  } catch (error) {
+    console.error("Error generating meal plan:", error);
+    return res.status(500).json({ error: 'Server error generating meal plan.' });
   }
 };
 
-module.exports = {
-  getMealPlan,
-};
+module.exports = { generateMealPlanController };
