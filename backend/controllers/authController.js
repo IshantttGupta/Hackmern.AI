@@ -2,8 +2,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const generateToken = (user) => {
+  return jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 };
@@ -19,15 +19,13 @@ const registerUser = async (req, res) => {
     if (userExists)
       return res.status(400).json({ error: "User already exists" });
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      password,
     });
 
-    const token = generateToken(user._id);
+    const token = generateToken(user);
 
     res.status(201).json({
       _id: user._id,
@@ -46,14 +44,12 @@ const loginUser = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user)
-      return res.status(400).json({ error: "Invalid credentials" });
+    if (!user) return res.status(400).json({ error: "Invalid username" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ error: "Invalid credentials" });
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) return res.status(400).json({ error: "Invalid password" });
 
-    const token = generateToken(user._id);
+    const token = generateToken(user);
 
     res.json({
       _id: user._id,

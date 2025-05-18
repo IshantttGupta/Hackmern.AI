@@ -24,11 +24,16 @@ const getMealPlan = async (req, res) => {
         - instructions: array of strings
     `;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const result = await model.generateContent(prompt);
     const text = result.response.text();
 
-    const generated = JSON.parse(text);
+    const cleanedText = text
+      .replace(/```json\s*/g, "") // remove ```json
+      .replace(/```/g, "") // remove ```
+      .trim();
+
+    const generated = JSON.parse(cleanedText);
 
     // Save all meals
     const savedMeals = await Promise.all(
@@ -46,7 +51,7 @@ const getMealPlan = async (req, res) => {
       meals: savedMeals,
     });
 
-    res.status(201).json({ id: mealPlan._id });
+    res.status(201).json({ id: mealPlan._id});
   } catch (err) {
     console.error("Error generating meal plan:", err.message);
     res.status(500).json({ error: "Failed to generate meal plan" });
