@@ -2,6 +2,7 @@ const express = require("express");
 const {generateMealPlanController} = require("../controllers/mealPlannerController");
 const authenticateUser = require("../middleware/authMiddleware");
 const DailyPlan = require("../models/DailyPlan");
+const DietPlan = require('../models/DietPlan')
 const Meal = require("../models/Meal");
 
 const router = express.Router();
@@ -54,20 +55,16 @@ router.delete("/plans/:id", authenticateUser, async (req, res) => {
   }
 });
 
-
-// Delete a specific meal
-router.delete("/meals/:id", authenticateUser, async (req, res) => {
-  try {
-    const meal = await Meal.findById(req.params.id);
-    if (!meal) return res.status(404).json({ error: "Meal not found" });
-
-    await meal.remove();
-    res.json({ message: "Meal deleted" });
-  } catch (err) {
-    console.error("Error deleting meal:", err.message);
-    res.status(500).json({ error: "Could not delete meal" });
+router.get('/dietplans', authenticateUser, async(req, res) => {
+  console.log("HI")
+  try{
+    const dietplans = await DietPlan.find({userId: req.user.id});
+    res.status(200).json({dietplans});
+  } catch (err){
+    console.error(err);
+    res.status(500).json({message: "Could not recall diet plans"});
   }
-});
+})
 
 
 module.exports = router;

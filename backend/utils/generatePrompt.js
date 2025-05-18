@@ -23,9 +23,10 @@ The meal plan should contain ${meals_per_day} meals per day (e.g., breakfast, lu
 
 ⚠️ IMPORTANT:
 1. Use only real recipe names that exist in the Spoonacular database.
-2. At the end, return a JSON object with this exact schema:
+2. At the end, return ONLY a JSON object with this exact schema:
 3. Ensure that each recipe name exists in the Spoonacular database. Do not invent recipe names. You may simplify names if needed to increase match likelihood.
-4. If the name might not exist, pick 3-5 core ingredients instead. For any ingredient with common allergens or restrictions, list 1-2 viable substitutes.  
+4. If the name might not exist, pick 3-5 core ingredients instead. For any ingredient with common allergens or restrictions, list 1-2 viable substitutes. 
+5. Do not include any explanations, approximations (~), comments, or markdown (no triple backticks). Do not wrap the JSON in text or additional notes. 
 
 Format:
 

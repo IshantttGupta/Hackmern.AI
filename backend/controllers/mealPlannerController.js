@@ -1,8 +1,11 @@
 const { generateMealPlan } = require("../utils/mealPlannerAi");
+const DietPlan = require("../models/DietPlan");
 
 const generateMealPlanController = async (req, res) => {
   try {
     const userInput = req.body;
+    const userId = req.user.id; // adjust based on your auth setup
+
     console.log(userInput);
 
     const result = await generateMealPlan(userInput);
@@ -15,7 +18,25 @@ const generateMealPlanController = async (req, res) => {
 
     let parsed;
     try {
-      parsed = JSON.parse(result.mealPlanRawText);
+      let cleanedText = result.mealPlanRawText.trim();
+
+      // Remove trailing non-JSON text
+      const jsonEnd = cleanedText.lastIndexOf("}");
+      if (jsonEnd !== -1) {
+        cleanedText = cleanedText.substring(0, jsonEnd + 1);
+      }
+
+      // Replace "~350" with "350"
+      cleanedText = cleanedText.replace(/~\s*(\d+)/g, "$1");
+
+      try {
+        parsed = JSON.parse(cleanedText);
+      } catch (err) {
+        return res.status(400).json({
+          error: "Failed to parse meal plan. Ensure prompt returns valid JSON.",
+          raw: cleanedText,
+        });
+      }
     } catch (err) {
       return res.status(400).json({
         error: "Failed to parse meal plan. Ensure prompt returns valid JSON.",
