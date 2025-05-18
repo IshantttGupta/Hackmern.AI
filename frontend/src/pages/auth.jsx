@@ -69,7 +69,7 @@ const AuthPage = ({ onAuthSuccess }) => {
           localStorage.setItem('token', data.token);
           setSuccess('Logged in successfully! Redirecting...');
           if (onAuthSuccess) onAuthSuccess(); 
-          window.location.href = '/planner';
+          window.location.href = '/home';
         } else {
           setSuccess('Account created! You can now log in.');
           setIsLogin(true);

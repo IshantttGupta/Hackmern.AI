@@ -4,9 +4,10 @@ import AuthPage from './pages/auth';
 import Dashboard from './pages/dashboard';
 import PlannerPage from './pages/PlannerPage';
 import MealPlanPage from './pages/MealPlanPage';
+import Home from './pages/home';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -16,11 +17,36 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard/>} />
-        <Route path="/auth" element= {<AuthPage />}/>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/planner" element = {<PlannerPage/>}/>
-        <Route path="/generated-plan" element = {<MealPlanPage/>}/>
+        {/* Redirect signed-in users from auth to home */}
+        <Route
+          path="/auth"
+          element={isLoggedIn ? <Navigate to="/home" replace /> : <AuthPage />}
+        />
+
+        {/* Protected Routes: accessible only if logged in */}
+        <Route
+          path="/"
+          element={<Dashboard />}
+        />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
+        />
+        <Route
+          path="/planner"
+          element={isLoggedIn ? <PlannerPage /> : <Navigate to="/auth" replace />}
+        />
+        <Route
+          path="/generated-plan"
+          element={isLoggedIn ? <MealPlanPage /> : <Navigate to="/auth" replace />}
+        />
+        <Route
+          path="/home"
+          element={isLoggedIn ? <Home /> : <Navigate to="/auth" replace />}
+        />
+        
+        {/* Catch-all: Redirect unknown paths to auth */}
+        <Route path="*" element={<Navigate to="/auth" replace />} />
       </Routes>
     </BrowserRouter>
   );
